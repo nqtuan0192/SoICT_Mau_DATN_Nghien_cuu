@@ -29,7 +29,7 @@ jobs:
 
       # # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: apt install -y texlive-full
+        run: sudo apt update && sudo apt install -y texlive-full
 
       # # Runs a set of commands using the runners shell
       # - name: Run a multi-line script
