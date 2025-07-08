@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
   pull_request:
   registry_package:
+  workflow_dispatch:
 
 jobs:
   build-pdf:
