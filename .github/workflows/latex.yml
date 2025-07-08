@@ -1,37 +1,34 @@
-# This is a basic workflow to help you get started with Actions
+name: Build PDF
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+  registry_package:
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  build-pdf:
+    name: Build PDF
     runs-on: ubuntu-latest
     container:
-      image: mfisherman/texlive-minimal # ghcr.io/moderncv/debian-texlive-docker:main
+      image: ghcr.io/moderncv/debian-texlive-docker:main
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout code
       - uses: actions/checkout@v4
 
       - name: Build PDF
         run: latexmk -pdflatex='pdflatex -interaction=nonstopmode' -bibtex -pdf ./main.tex -outdir=build
-      
+
       - name: Upload PDF
         uses: actions/upload-artifact@v4
         with:
           name: main.pdf
           path: ./build/main.pdf
+
+      # - name: Upload log
+      #   if: ${{ always() }}
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: main.log
+      #     path: ./build/main.log
