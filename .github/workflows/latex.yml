@@ -39,9 +39,9 @@ jobs:
       
       
       - name: Build PDF
-        run: latexmk ./main.tex
+        run: latexmk -pdflatex='pdflatex -interaction=nonstopmode' -bibtex -pdf ./main.tex -outdir=build
       - name: Upload PDF
         uses: actions/upload-artifact@v4
         with:
           name: main.pdf
-          path: ./main.pdf
+          path: ./build/main.pdf
